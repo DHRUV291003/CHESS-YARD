@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple Chess Game</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f4f4f4;
+    }
+
+    .board {
+      display: grid;
+      grid-template-columns: repeat(8, 80px);
+      grid-template-rows: repeat(8, 80px);
+      border: 2px solid #333;
+    }
+
+    .cell {
+      width: 80px;
+      height: 80px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 48px;
+      cursor: grab;
+    }
+
+    .cell:nth-child(odd) {
+      background-color: #eee;
+    }
+
+    .cell:nth-child(even) {
+      background-color: #444;
+      color: white;
+    }
+
+    .piece {
+      cursor: move;
+    }
+
+    .dragging {
+      opacity: 0.5;
+    }
+  </style>
+</head>
+<body>
+  <div class="board" id="chessBoard">
+    <!-- Row 1 -->
+    <div class="cell"><span class="piece" draggable="true">♖</span></div>
+    <div class="cell"><span class="piece" draggable="true">♘</span></div>
+    <div class="cell"><span class="piece" draggable="true">♗</span></div>
+    <div class="cell"><span class="piece" draggable="true">♕</span></div>
+    <div class="cell"><span class="piece" draggable="true">♔</span></div>
+    <div class="cell"><span class="piece" draggable="true">♗</span></div>
+    <div class="cell"><span class="piece" draggable="true">♘</span></div>
+    <div class="cell"><span class="piece" draggable="true">♖</span></div>
+
+    <!-- Row 2 -->
+    <div class="cell"><span class="piece" draggable="true">♙</span></div>
+    <div class="cell"><span class="piece" draggable="true">♙</span></div>
+    <div class="cell"><span class="piece" draggable="true">♙</span></div>
+    <div class="cell"><span class="piece" draggable="true">♙</span></div>
+    <div class="cell"><span class="piece" draggable="true">♙</span></div>
+    <div class="cell"><span class="piece" draggable="true">♙</span></div>
+    <div class="cell"><span class="piece" draggable="true">♙</span></div>
+    <div class="cell"><span class="piece" draggable="true">♙</span></div>
+
+    <!-- Row 3-6 (empty cells) -->
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+
+    <!-- Row 7 -->
+    <div class="cell"><span class="piece" draggable="true">♟</span></div>
+    <div class="cell"><span class="piece" draggable="true">♟</span></div>
+    <div class="cell"><span class="piece" draggable="true">♟</span></div>
+    <div class="cell"><span class="piece" draggable="true">♟</span></div>
+    <div class="cell"><span class="piece" draggable="true">♟</span></div>
+    <div class="cell"><span class="piece" draggable="true">♟</span></div>
+    <div class="cell"><span class="piece" draggable="true">♟</span></div>
+    <div class="cell"><span class="piece" draggable="true">♟</span></div>
+
+    <!-- Row 8 -->
+    <div class="cell"><span class="piece" draggable="true">♜</span></div>
+    <div class="cell"><span class="piece" draggable="true">♞</span></div>
+    <div class="cell"><span class="piece" draggable="true">♝</span></div>
+    <div class="cell"><span class="piece" draggable="true">♛</span></div>
+    <div class="cell"><span class="piece" draggable="true">♚</span></div>
+    <div class="cell"><span class="piece" draggable="true">♝</span></div>
+    <div class="cell"><span class="piece" draggable="true">♞</span></div>
+    <div class="cell"><span class="piece" draggable="true">♜</span></div>
+  </div>
+
+  <script>
+    const pieces = document.querySelectorAll('.piece');
+    let draggedPiece = null;
+
+    pieces.forEach(piece => {
+      piece.addEventListener('dragstart', () => {
+        draggedPiece = piece;
+        setTimeout(() => piece.classList.add('dragging'), 0);
+      });
+
+      piece.addEventListener('dragend', () => {
+        setTimeout(() => {
+          draggedPiece.classList.remove('dragging');
+          draggedPiece = null;
+        }, 0);
+      });
+    });
+
+    const cells = document.querySelectorAll('.cell');
+
+    cells.forEach(cell => {
+      cell.addEventListener('dragover', (e) => {
+        e.preventDefault();
+      });
+
+      cell.addEventListener('drop', () => {
+        if (draggedPiece) {
+          cell.innerHTML = '';
+          cell.appendChild(draggedPiece);
+        }
+      });
+    });
+  </script>
+</body>
+</html>
